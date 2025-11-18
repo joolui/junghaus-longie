@@ -1,0 +1,2092 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WatchFace height="450" width="450">
+    <Metadata key="CLOCK_TYPE" value="ANALOG" />
+    <Metadata key="PREVIEW_TIME" value="10:08:30" />
+    <UserConfigurations>
+        <ColorConfiguration id="themeColor" defaultValue="0" displayName="colors_label"
+            screenReaderText="colors_label">
+            <ColorOption displayName="SanFranciscoTime" id="0"
+                colors="#000000 #ffffff #E43939 #A92727 #493A3A #D9D9D9 #eeeeee #bbbbbb #dddddd #444444 #d5d5d5 #7D0000 #ff0000 #51908383 #00254D #D0D0D0 #111111 #555555 #922222 #00FFFF #FF00FF #888b5e #333333 #777777 #ADADAD #0B0B0B #FFFFFF" />
+            <ColorOption displayName="NewYorkTime" id="1"
+                colors="#000000 #ffffff #E43939 #A92727 #493A3A #D9D9D9 #eeeeee #bbbbbb #dddddd #444444 #d5d5d5 #3D3E3B #ff0000 #51908383 #00254D #D0D0D0 #111111 #555555 #922222 #00FFFF #FF00FF #888b5e #333333 #777777 #ADADAD #0B0B0B #FFFFFF" />
+        </ColorConfiguration>
+    </UserConfigurations>
+    <BitmapFonts>
+        <!-- Weather icon set for day -->
+        <BitmapFont name="weather_icons_day">
+            <Character name="0" resource="ic_unknown" width="96" height="96" />
+            <Character name="1" resource="ic_clear" width="96" height="96" />
+            <Character name="2" resource="ic_cloudy" width="96" height="96" />
+            <Character name="3" resource="ic_fog" width="96" height="96" />
+            <Character name="4" resource="ic_heavy_rain" width="96" height="96" />
+            <Character name="5" resource="ic_heavy_snow" width="96" height="96" />
+            <Character name="6" resource="ic_rain" width="96" height="96" />
+            <Character name="7" resource="ic_snow" width="96" height="96" />
+            <Character name="8" resource="ic_sunny" width="96" height="96" />
+            <Character name="9" resource="ic_thunderstorm" width="96" height="96" />
+            <Word name="10" resource="ic_sleet" width="96" height="96" />
+            <Word name="11" resource="ic_snow" width="96" height="96" />
+            <Word name="12" resource="ic_rain" width="96" height="96" />
+            <Word name="14" resource="ic_partly_cloudy_day" width="96" height="96" />
+            <Word name="15" resource="ic_windy" width="96" height="96" />
+        </BitmapFont>
+        <!-- Weather icon set for night -->
+        <BitmapFont name="weather_icons_night">
+            <Character name="0" resource="ic_unknown" width="96" height="96" />
+            <Character name="1" resource="ic_clear" width="96" height="96" />
+            <Character name="2" resource="ic_cloudy" width="96" height="96" />
+            <Character name="3" resource="ic_fog" width="96" height="96" />
+            <Character name="4" resource="ic_heavy_rain" width="96" height="96" />
+            <Character name="5" resource="ic_heavy_snow" width="96" height="96" />
+            <Character name="6" resource="ic_rain" width="96" height="96" />
+            <Character name="7" resource="ic_snow" width="96" height="96" />
+            <Character name="8" resource="ic_sunny" width="96" height="96" />
+            <Character name="9" resource="ic_thunderstorm" width="96" height="96" />
+            <Word name="10" resource="ic_sleet" width="96" height="96" />
+            <Word name="11" resource="ic_snow" width="96" height="96" />
+            <Word name="12" resource="ic_rain" width="96" height="96" />
+            <Word name="14" resource="ic_partly_cloudy_night" width="96" height="96" />
+            <Word name="15" resource="ic_windy" width="96" height="96" />
+        </BitmapFont>
+    </BitmapFonts>
+    <Scene backgroundColor="[CONFIGURATION.themeColor.0]">
+        <Variant mode="AMBIENT" target="backgroundColor" value="#000000" />
+        <!-- Background dial image -->
+        <Group name="ActiveGroup" height="450" width="450" x="0" y="0" alpha="255">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <PartImage height="450" width="450" x="0" y="0">
+                <Image resource="dial" />
+            </PartImage>
+            <PartDraw x="0" y="0" width="450" height="450">
+                <Ellipse x="0" y="0" width="450" height="450">
+                    <Fill color="[CONFIGURATION.themeColor.1]">
+                        <RadialGradient centerX="225" centerY="225" radius="225"
+                            colors="#00FFFFFF #50333333 #000000" positions="0.65 0.85 0.99" />
+                    </Fill>
+                </Ellipse>
+
+            </PartDraw>
+            <Group name="Logo" x="0" y="0" width="450" height="450">
+                <Group name="LogoMask" x="0" y="0" width="450" height="450">
+                    <!-- Logo with conditional tintColor based on battery level -->
+                    <Condition>
+                        <Expressions>
+                            <Expression name="is_battery_low">[BATTERY_PERCENT] &lt;= 30
+                            </Expression>
+                            <Expression name="is_battery_high">[BATTERY_PERCENT] &gt; 30
+                            </Expression>
+                        </Expressions>
+                        <!-- Red logo when battery is low (<=30%) -->
+                        <Compare expression="is_battery_low">
+                            <Group name="LogoLowBattery" x="0" y="0" width="450" height="450">
+                                <PartDraw x="270" y="215" width="100" height="25">
+                                    <Rectangle x="0" y="0" width="100" height="25">
+                                        <Fill color="[CONFIGURATION.themeColor.18]" />
+                                    </Rectangle>
+                                </PartDraw>
+                            </Group>
+                        </Compare>
+                        <!-- Red logo when battery is low (>30%) -->
+                        <Compare expression="is_battery_high">
+                            <Group name="LogoLowBattery" x="0" y="0" width="450" height="450">
+                                <PartDraw x="270" y="215" width="100" height="25">
+                                    <Rectangle x="0" y="0" width="100" height="25">
+                                        <Fill color="[CONFIGURATION.themeColor.0]" />
+                                    </Rectangle>
+                                </PartDraw>
+                            </Group>
+                        </Compare>
+                        <!-- Normal logo when battery is sufficient (>30%) -->
+                        <Default>
+                            <Group name="LogoHighBattery" x="0" y="0" width="450" height="450">
+                                <PartDraw x="270" y="215" width="100" height="25">
+                                    <Rectangle x="0" y="0" width="100" height="25">
+                                        <Fill color="[CONFIGURATION.themeColor.0]" />
+                                    </Rectangle>
+                                </PartDraw>
+                            </Group>
+                        </Default>
+                    </Condition>
+                    <PartImage x="270" y="215" width="100" height="25" renderMode="MASK">
+                        <Image resource="logo" />
+                    </PartImage>
+
+                </Group>
+
+                <Group name="LogoDate" x="0" y="0" width="450" height="450"
+                    tintColor="[CONFIGURATION.themeColor.0]">
+                    <PartText height="27" width="130" x="255" y="190">
+                        <Localization calendar="GREGORIAN" timeZone="SYNC_TO_DEVICE" />
+                        <Text>
+                            <Font family="sequel_extended2" size="17">
+                                <Template><![CDATA[%S]]>
+                                    <Parameter expression="[DAY_OF_WEEK_F]" />
+                                </Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <PartText height="27" width="130" x="255" y="230">
+                        <Localization calendar="GREGORIAN" timeZone="SYNC_TO_DEVICE" />
+                        <Text>
+                            <Font family="sequel_extended2" size="14">
+                                <Template><![CDATA[%s %s]]>
+                                    <Parameter expression="[MONTH_F]" />
+                                    <Parameter expression="[YEAR]" />
+                                </Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                </Group>
+            </Group>
+            <!-- Background date numbers distance is 360/31 = 11.764705882352941 -->
+            <Group name="BackgroundDateNumbers" x="205" y="0" width="30" height="450">
+                <!-- 31 - date around the dial -->
+                <PartText x="0" y="4" width="40" height="20">
+                    <Text>
+                        <Font family="sequel_extended2" size="25"
+                            color="[CONFIGURATION.themeColor.24]">
+                            <Template><![CDATA[31]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 30 - date around the dial -->
+                <Group name="BackgroundDateNumber30" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="4" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[30]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="-11.61290323" />
+                </Group>
+                <!-- 29 - date around the dial -->
+                <Group name="BackgroundDateNumber29" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="4" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[29]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="-23.22580645" />
+                </Group>
+                <!-- 28 - date around the dial -->
+                <Group name="BackgroundDateNumber28" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="4" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[28]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="-34.83870968" />
+                </Group>
+                <!-- 27 - date around the dial -->
+                <Group name="BackgroundDateNumber27" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="4" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[27]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="-46.4516129" />
+                </Group>
+                <!-- 26 - date around the dial -->
+                <Group name="BackgroundDateNumber26" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="4" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[26]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="-58.06451613" />
+                </Group>
+                <!-- 25 - date around the dial -->
+                <Group name="BackgroundDateNumber25" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="4" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[25]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="-69.67741935" />
+                </Group>
+                <!-- 24 - date around the dial -->
+                <Group name="BackgroundDateNumber24" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="4" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[24]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="-81.29032258" />
+                </Group>
+                <!-- 1 - date around the dial -->
+                <Group name="BackgroundDateNumber1" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="4" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[1]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="11.764705882352941" />
+                </Group>
+                <!-- 2 - date around the dial -->
+                <Group name="BackgroundDateNumber2" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="4" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[2]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="23.529411764705882" />
+                </Group>
+                <!-- 3 - date around the dial -->
+                <Group name="BackgroundDateNumber3" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="4" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[3]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="35.294117647058826" />
+                </Group>
+                <!-- 4 - date around the dial -->
+                <Group name="BackgroundDateNumber4" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="4" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[4]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="47.05882352941177" />
+                </Group>
+                <!-- 5 - date around the dial -->
+                <Group name="BackgroundDateNumber5" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="4" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[5]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="58.82352941176471" />
+                </Group>
+                <!-- 6 - date around the dial -->
+                <Group name="BackgroundDateNumber6" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="4" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[6]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="70.58823529411765" />
+                </Group>
+                <!-- 7 - date around the dial -->
+                <Group name="BackgroundDateNumber7" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="4" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[7]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="82.35294117647059" />
+                </Group>
+
+                <!-- 8 - date around the dial -->
+                <Group name="BackgroundDateNumber8" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[8]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="-87.09" />
+                </Group>
+                <!-- 9 - date around the dial -->
+                <Group name="BackgroundDateNumber9" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[9]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="-75.4838" />
+                </Group>
+                <!-- 10 - date around the dial -->
+                <Group name="BackgroundDateNumber10" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[10]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="-63.8709" />
+                </Group>
+                <!-- 11 - date around the dial -->
+                <Group name="BackgroundDateNumber11" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[11]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="-52.258" />
+                </Group>
+                <!-- 12 - date around the dial -->
+                <Group name="BackgroundDateNumber12" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[12]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="-40.64516129" />
+                </Group>
+                <!-- 13 - date around the dial -->
+                <Group name="BackgroundDateNumber13" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[13]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="-29.03225806" />
+                </Group>
+                <!-- 14 - date around the dial -->
+                <Group name="BackgroundDateNumber14" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[14]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="-17.41935484" />
+                </Group>
+                <!-- 15 - date around the dial -->
+                <Group name="BackgroundDateNumber15" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[15]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="-5.80645161" />
+                </Group>
+                <!-- 16 - date around the dial -->
+                <Group name="BackgroundDateNumber16" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[16]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="5.80645161" />
+                </Group>
+                <!-- 17 - date around the dial -->
+                <Group name="BackgroundDateNumber17" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[17]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="17.41935484" />
+                </Group>
+                <!-- 18 - date around the dial -->
+                <Group name="BackgroundDateNumber18" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[18]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="29.03225806" />
+                </Group>
+                <!-- 19 - date around the dial -->
+                <Group name="BackgroundDateNumber19" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[19]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="40.64516129" />
+                </Group>
+                <!-- 20 - date around the dial -->
+                <Group name="BackgroundDateNumber20" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[20]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="52.25806452" />
+                </Group>
+                <!-- 21 - date around the dial -->
+                <Group name="BackgroundDateNumber21" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[21]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="63.87096774" />
+                </Group>
+                <!-- 22 - date around the dial -->
+                <Group name="BackgroundDateNumber22" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[22]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="75.48387097" />
+                </Group>
+                <!-- 23 - date around the dial -->
+                <Group name="BackgroundDateNumber23" x="0" y="0" width="40" height="450">
+                    <PartText x="0" y="424" width="40" height="20">
+                        <Text>
+                            <Font family="sequel_extended2" size="25"
+                                color="[CONFIGURATION.themeColor.24]">
+                                <Template><![CDATA[23]]></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                    <Transform target="angle" value="87.09677419" />
+                </Group>
+
+            </Group>
+            <Group name="BackgroundHourNumbers" x="0" y="0" width="450" height="450">
+                <!-- 12 Hour Number -->
+                <PartText x="191" y="24" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="49"
+                            color="[CONFIGURATION.themeColor.25]" weight="BOLD">
+                            <Template><![CDATA[12]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 1 Hour Number -->
+                <PartText x="283" y="47" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="50"
+                            color="[CONFIGURATION.themeColor.25]" weight="BOLD">
+                            <Template><![CDATA[1]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 11 Hour Number -->
+                <PartText x="104" y="47" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="50"
+                            color="[CONFIGURATION.themeColor.25]" weight="BOLD">
+                            <Template><![CDATA[11]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 2 Hour Number -->
+                <PartText x="345" y="109" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="50"
+                            color="[CONFIGURATION.themeColor.25]" weight="BOLD">
+                            <Template><![CDATA[2]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 10 Hour Number -->
+                <PartText x="56" y="109" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="50"
+                            color="[CONFIGURATION.themeColor.25]" weight="BOLD">
+                            <Template><![CDATA[10]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 3 Hour Number -->
+                <PartText x="371" y="200" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="50"
+                            color="[CONFIGURATION.themeColor.25]" weight="BOLD">
+                            <Template><![CDATA[3]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 9 Hour Number -->
+                <PartText x="18" y="200" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="50"
+                            color="[CONFIGURATION.themeColor.25]" weight="BOLD">
+                            <Template><![CDATA[9]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 4 Hour Number -->
+                <PartText x="346" y="285" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="50"
+                            color="[CONFIGURATION.themeColor.25]" weight="BOLD">
+                            <Template><![CDATA[4]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 8 Hour Number -->
+                <PartText x="46" y="285" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="50"
+                            color="[CONFIGURATION.themeColor.25]" weight="BOLD">
+                            <Template><![CDATA[8]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 5 Hour Number -->
+                <PartText x="284" y="349" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="50"
+                            color="[CONFIGURATION.themeColor.25]" weight="BOLD">
+                            <Template><![CDATA[5]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 7 Hour Number -->
+                <PartText x="107" y="349" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="50"
+                            color="[CONFIGURATION.themeColor.25]" weight="BOLD">
+                            <Template><![CDATA[7]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 6 Hour Number -->
+                <PartText x="194" y="375" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="50"
+                            color="[CONFIGURATION.themeColor.25]" weight="BOLD">
+                            <Template><![CDATA[6]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Group>
+            <Group name="TopComplication" height="158" width="158" x="146" y="32">
+                <!-- Outer ring -->
+                <Group name="TopComplicationOuterCircle" x="0" y="0" width="158" height="158">
+                    <PartDraw height="158" width="158" x="0" y="0">
+                        <Ellipse height="158" width="158" x="0" y="0">
+                            <Stroke color="[CONFIGURATION.themeColor.4]" thickness="4">
+                                <LinearGradient startX="0" startY="0" endX="158" endY="158"
+                                    positions="0 1" colors="#dddddd #444444" />
+                            </Stroke>
+                            <Fill color="[CONFIGURATION.themeColor.5]" />
+                        </Ellipse>
+                    </PartDraw>
+                    <PartDraw height="158" width="158" x="0" y="0">
+                        <Ellipse height="158" width="158" x="0" y="0">
+                            <Stroke color="[CONFIGURATION.themeColor.4]" thickness="2">
+                                <LinearGradient startX="158" startY="158" endX="0" endY="0"
+                                    positions="0 1" colors="#d5d5d5 #ffffff" />
+                            </Stroke>
+                            <Fill color="[CONFIGURATION.themeColor.5]">
+                                <LinearGradient startX="0" startY="0" endX="158" endY="158"
+                                    positions="0 1" colors="#bbbbbb #eeeeee" />
+                            </Fill>
+                        </Ellipse>
+                    </PartDraw>
+                    <!-- We put the markers for Steps  36 degree each -->
+                    <Group name="StepMarkers" x="0" y="0" width="158" height="158">
+                        <!-- 0 - Step marker -->
+                        <PartDraw x="77" y="0" width="4" height="158">
+                            <Rectangle x="0" y="4" width="4" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                                <Stroke color="[CONFIGURATION.themeColor.12]" thickness="1" />
+                            </Rectangle>
+                            <Transform target="angle" value="0" />
+                        </PartDraw>
+                        <!-- 750 - steps label -->
+                        <Group name="750Steps" x="64" y="0" width="30" height="158">
+                            <PartText x="0" y="0" width="30" height="20">
+                                <Text>
+                                    <Font family="sequel_extended2" size="14"
+                                        color="[CONFIGURATION.themeColor.0]">
+                                        <Template><![CDATA[750]]></Template>
+                                    </Font>
+                                </Text>
+                            </PartText>
+                            <Transform target="angle" value="-90" />
+                        </Group>
+                        <!-- 250 - steps label -->
+                        <Group name="250Steps" x="64" y="0" width="30" height="158">
+                            <PartText x="0" y="0" width="30" height="20">
+                                <Text>
+                                    <Font family="sequel_extended2" size="14"
+                                        color="[CONFIGURATION.themeColor.0]">
+                                        <Template><![CDATA[250]]></Template>
+                                    </Font>
+                                </Text>
+                            </PartText>
+                            <Transform target="angle" value="90" />
+                        </Group>
+                        <!-- 500 - steps label marker -->
+                        <Group name="500Steps" x="62" y="0" width="34" height="158">
+                            <PartText x="0" y="136" width="34" height="20">
+                                <Text>
+                                    <Font family="sequel_extended2" size="14"
+                                        color="[CONFIGURATION.themeColor.0]">
+                                        <Template><![CDATA[500]]></Template>
+                                    </Font>
+                                </Text>
+                            </PartText>
+                            <Transform target="angle" value="0" />
+                        </Group>
+
+
+                        <!-- 100 - marker -->
+                        <PartDraw x="78" y="0" width="2" height="158">
+                            <Rectangle x="0" y="4" width="2" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="36" />
+                        </PartDraw>
+                        <!-- 200 - marker -->
+                        <PartDraw x="78" y="0" width="2" height="158">
+                            <Rectangle x="0" y="4" width="2" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="72" />
+                        </PartDraw>
+                        <!-- 300 - marker -->
+                        <PartDraw x="78" y="0" width="2" height="158">
+                            <Rectangle x="0" y="4" width="2" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="108" />
+                        </PartDraw>
+                        <!-- 400 - marker -->
+                        <PartDraw x="78" y="0" width="2" height="158">
+                            <Rectangle x="0" y="4" width="2" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="144" />
+                        </PartDraw>
+
+                        <!-- 600 - marker -->
+                        <PartDraw x="78" y="0" width="2" height="158">
+                            <Rectangle x="0" y="4" width="2" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="-36" />
+                        </PartDraw>
+                        <!-- 700 - marker -->
+                        <PartDraw x="78" y="0" width="2" height="158">
+                            <Rectangle x="0" y="4" width="2" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="-72" />
+                        </PartDraw>
+                        <!-- 800 - marker -->
+                        <PartDraw x="78" y="0" width="2" height="158">
+                            <Rectangle x="0" y="4" width="2" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="-108" />
+                        </PartDraw>
+                        <!-- 900 - marker -->
+                        <PartDraw x="78" y="0" width="2" height="158">
+                            <Rectangle x="0" y="4" width="2" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="-144" />
+                        </PartDraw>
+                    </Group>
+                </Group>
+                <Group name="TopComplicationInnerCircle" height="118" width="118" x="20" y="20">
+                    <!-- Inner background circle -->
+                    <Group name="TopInnerCircleMasking" height="118" width="118" x="0" y="0">
+                        <PartDraw x="0" y="0" width="118" height="118">
+                            <Ellipse x="0" y="0" width="118" height="118">
+                                <Fill color="[CONFIGURATION.themeColor.1]">
+                                    <RadialGradient centerX="59" centerY="59" radius="60"
+                                        colors="#333333 #eeeeee" positions="0.2 1" />
+                                </Fill>
+                            </Ellipse>
+                        </PartDraw>
+
+                        <!-- 2. The Masking Shape (renderMode="MASK") -->
+                        <!-- This element is NOT drawn, it only clips the PartImage above. -->
+                        <PartImage renderMode="MASK" alpha="170" width="118" height="118" x="0"
+                            y="0">
+                            <Image resource="concentric_circles" />
+                        </PartImage>
+                    </Group>
+
+                    <Group name="TopInnerCircleLabels" x="0" y="0" width="118" height="118">
+                        <Group name="ThousandStepsLabels" x="0" y="0" width="118" height="118">
+                            <!-- 0 thousand steps label at bottom -->
+                            <PartText height="15" width="26" x="46" y="88">
+                                <Text>
+                                    <Font family="sequel_extended2" size="12"
+                                        color="[CONFIGURATION.themeColor.0]">
+                                        <Template><![CDATA[0]]></Template>
+                                    </Font>
+                                </Text>
+                            </PartText>
+                            <Group name="5 thousand label" x="46" y="0" width="26" height="118">
+                                <PartText height="15" width="26" x="0" y="88">
+                                    <Text>
+                                        <Font family="sequel_extended2" size="12"
+                                            color="[CONFIGURATION.themeColor.0]">
+                                            <Template><![CDATA[5]]></Template>
+                                        </Font>
+                                    </Text>
+                                </PartText>
+                                <Transform target="angle" value="72" />
+                            </Group>
+                            <Group name="20 thousand label" x="46" y="0" width="26" height="118">
+                                <PartText height="15" width="26" x="0" y="88">
+                                    <Text>
+                                        <Font family="sequel_extended2" size="12"
+                                            color="[CONFIGURATION.themeColor.0]">
+                                            <Template><![CDATA[20]]></Template>
+                                        </Font>
+                                    </Text>
+                                </PartText>
+                                <Transform target="angle" value="-72" />
+                            </Group>
+                            <Group name="10 thousand label" x="46" y="0" width="26" height="118">
+                                <PartText height="15" width="26" x="0" y="12">
+                                    <Text>
+                                        <Font family="sequel_extended2" size="12"
+                                            color="[CONFIGURATION.themeColor.0]">
+                                            <Template><![CDATA[10]]></Template>
+                                        </Font>
+                                    </Text>
+                                </PartText>
+                                <Transform target="angle" value="-36" />
+                            </Group>
+                            <Group name="15 thousand label" x="46" y="0" width="26" height="118">
+                                <PartText height="15" width="26" x="0" y="12">
+                                    <Text>
+                                        <Font family="sequel_extended2" size="12"
+                                            color="[CONFIGURATION.themeColor.0]">
+                                            <Template><![CDATA[15]]></Template>
+                                        </Font>
+                                    </Text>
+                                </PartText>
+                                <Transform target="angle" value="36" />
+                            </Group>
+                        </Group>
+                        <Group name="ThousandStepsMarkers" x="0" y="0" width="118" height="118">
+                            <!-- 0 - Steps thousand marker -->
+                            <PartDraw x="57" y="0" width="2" height="118">
+                                <Rectangle x="1" y="104" width="2" height="10">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                    <Stroke color="[CONFIGURATION.themeColor.12]" thickness="1" />
+                                </Rectangle>
+                            </PartDraw>
+
+                            <!-- 1 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="194.4" />
+                            </PartDraw>
+                            <!-- 2 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="208.8" />
+                            </PartDraw>
+                            <!-- 3 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="223.2" />
+                            </PartDraw>
+                            <!-- 4 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="237.6" />
+                            </PartDraw>
+                            <!-- 5 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="10">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="252" />
+                            </PartDraw>
+                            <!-- 6 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="266.4" />
+                            </PartDraw>
+                            <!-- 7 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="280.8" />
+                            </PartDraw>
+                            <!-- 8 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="295.2" />
+                            </PartDraw>
+                            <!-- 9 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="309.6" />
+                            </PartDraw>
+                            <!-- 10 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="10">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="324" />
+                            </PartDraw>
+                            <!-- 11 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="338.4" />
+                            </PartDraw>
+                            <!-- 12 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="352.8" />
+                            </PartDraw>
+                            <!-- 13 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="367.2" />
+                            </PartDraw>
+                            <!-- 14 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="381.6" />
+                            </PartDraw>
+                            <!-- 15 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="10">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="396" />
+                            </PartDraw>
+                            <!-- 16 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="410.4" />
+                            </PartDraw>
+                            <!-- 17 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="424.8" />
+                            </PartDraw>
+                            <!-- 18 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="439.2" />
+                            </PartDraw>
+                            <!-- 19 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="453.6" />
+                            </PartDraw>
+                            <!-- 20 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="10">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="468" />
+                            </PartDraw>
+                            <!-- 21 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="482.4" />
+                            </PartDraw>
+                            <!-- 22 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="496.8" />
+                            </PartDraw>
+                            <!-- 23 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="511.2" />
+                            </PartDraw>
+                            <!-- 24 - Steps thousand marker -->
+                            <PartDraw x="58" y="0" width="2" height="118">
+                                <Rectangle x="0" y="4" width="2" height="8">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="525.6" />
+                            </PartDraw>
+
+
+                        </Group>
+                        <!-- Walking man icon -->
+                        <PartText height="30" width="30" x="45" y="15">
+                            <Text>
+                                <Font family="material_icons" size="25"
+                                    color="[CONFIGURATION.themeColor.0]">
+                                    <Template><![CDATA[directions_walk]]></Template>
+                                </Font>
+                            </Text>
+                        </PartText>
+                        <PartText height="20" width="40" x="40" y="70">
+                            <Text>
+                                <Font family="sequel_extended2" size="12"
+                                    color="[CONFIGURATION.themeColor.0]">
+                                    <Template><![CDATA[1000x]]></Template>
+                                </Font>
+                            </Text>
+                        </PartText>
+
+                    </Group>
+                    <!-- Steps inner hand: 0-25 thousands per rotation -->
+                    <PartDraw height="118" width="6" x="56" y="0" pivotX="0.5" pivotY="0.5">
+                        <RoundRectangle x="0" y="15" width="6" height="45" cornerRadiusX="3"
+                            cornerRadiusY="5">
+                            <Fill color="[CONFIGURATION.themeColor.2]" />
+                            <Stroke color="[CONFIGURATION.themeColor.3]" thickness="1" />
+                        </RoundRectangle>
+                        <Transform target="angle" value="floor([STEP_COUNT] / 1000) * 14.4 - 180" />
+                    </PartDraw>
+                    <!-- Steps outer hand: 0-1000 steps per rotation -->
+                    <PartDraw height="118" width="6" x="56" y="0" pivotX="0.5" pivotY="0.5">
+                        <RoundRectangle x="0" y="0" width="6" height="60" cornerRadiusX="3"
+                            cornerRadiusY="5">
+                            <Fill color="[CONFIGURATION.themeColor.2]" />
+                            <Stroke color="[CONFIGURATION.themeColor.3]" thickness="1" />
+                        </RoundRectangle>
+                        <Transform target="angle" value="([STEP_COUNT] % 1000) * 0.36" />
+                    </PartDraw>
+
+
+                    <!-- Center dot over steps hand -->
+                    <PartDraw height="20" width="20" x="49" y="49">
+                        <Ellipse height="20" width="20" x="0" y="1">
+                            <Fill color="[CONFIGURATION.themeColor.0]">
+                                <RadialGradient centerX="10" centerY="11" radius="10"
+                                    colors="#5F0000 #AF0000 #D70000" positions="0.1 0.5 1.0" />
+                            </Fill>
+                            <Stroke color="[CONFIGURATION.themeColor.11]" thickness="1" />
+                        </Ellipse>
+                    </PartDraw>
+                </Group>
+            </Group>
+            <Group name="LeftComplication" height="158" width="158" x="28" y="146">
+                <!-- Outer ring -->
+                <Group name="LeftComplicationOuterCircle" x="0" y="0" width="158" height="158">
+                    <PartDraw height="158" width="158" x="0" y="0">
+                        <Ellipse height="158" width="158" x="0" y="0">
+                            <Stroke color="[CONFIGURATION.themeColor.4]" thickness="4">
+                                <LinearGradient startX="0" startY="0" endX="158" endY="158"
+                                    positions="0 1" colors="#dddddd #444444" />
+                            </Stroke>
+                            <Fill color="[CONFIGURATION.themeColor.5]" />
+                        </Ellipse>
+                    </PartDraw>
+                    <PartDraw height="158" width="158" x="0" y="0">
+                        <Ellipse height="158" width="158" x="0" y="0">
+                            <Stroke color="[CONFIGURATION.themeColor.4]" thickness="2">
+                                <LinearGradient startX="158" startY="158" endX="0" endY="0"
+                                    positions="0 1" colors="#d5d5d5 #ffffff" />
+                            </Stroke>
+                            <Fill color="[CONFIGURATION.themeColor.5]">
+                                <LinearGradient startX="0" startY="0" endX="158" endY="158"
+                                    positions="0 1" colors="#bbbbbb #eeeeee" />
+                            </Fill>
+                        </Ellipse>
+                    </PartDraw>
+                    <!-- We put the markers for 24h segments 15 degree each -->
+                    <Group name="24hMarkers" x="0" y="0" width="158" height="158">
+                        <Group name="24hLabels" x="0" y="0" width="158" height="158">
+                            <!-- 0h - Watch 24h marker -->
+                            <PartDraw x="77" y="0" width="4" height="158">
+                                <Rectangle x="0" y="4" width="4" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                    <Stroke color="[CONFIGURATION.themeColor.12]" thickness="1" />
+                                </Rectangle>
+                                <Transform target="angle" value="180" />
+                            </PartDraw>
+
+                            <!-- 12 - Watch 24h label -->
+                            <Group name="12hLabel" x="69" y="0" width="20" height="158">
+                                <PartText x="0" y="0" width="20" height="20">
+                                    <Text>
+                                        <Font family="sequel_extended2" size="14"
+                                            color="[CONFIGURATION.themeColor.0]">
+                                            <Template><![CDATA[12]]></Template>
+                                        </Font>
+                                    </Text>
+                                </PartText>
+                            </Group>
+                            <!-- 6h - Watch 24h label -->
+                            <Group name="6hLabel" x="69" y="0" width="20" height="158">
+                                <PartText x="0" y="0" width="20" height="20">
+                                    <Text>
+                                        <Font family="sequel_extended2" size="14"
+                                            color="[CONFIGURATION.themeColor.0]">
+                                            <Template><![CDATA[6]]></Template>
+                                        </Font>
+                                    </Text>
+                                </PartText>
+                                <Transform target="angle" value="-90" />
+                            </Group>
+                            <!-- 18 - Watch 24h label -->
+                            <Group name="18hLabel" x="69" y="0" width="20" height="158">
+                                <PartText x="0" y="0" width="20" height="20">
+                                    <Text>
+                                        <Font family="sequel_extended2" size="14"
+                                            color="[CONFIGURATION.themeColor.0]">
+                                            <Template><![CDATA[18]]></Template>
+                                        </Font>
+                                    </Text>
+                                </PartText>
+                                <Transform target="angle" value="90" />
+                            </Group>
+                        </Group>
+                        <Group name="24hWideMarkers" x="0" y="0" width="158" height="158">
+                            <!-- 9h - Watch 24h marker -->
+                            <PartDraw x="77" y="0" width="4" height="158">
+                                <Rectangle x="0" y="4" width="4" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="-45" />
+                            </PartDraw>
+                            <!-- 15h - Watch 24h marker -->
+                            <PartDraw x="77" y="0" width="4" height="158">
+                                <Rectangle x="0" y="4" width="4" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="45" />
+                            </PartDraw>
+                            <!-- 21 - Watch 24h marker -->
+                            <PartDraw x="77" y="0" width="4" height="158">
+                                <Rectangle x="0" y="4" width="4" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="135" />
+                            </PartDraw>
+                            <!-- 21 - Watch 24h marker -->
+                            <PartDraw x="77" y="0" width="4" height="158">
+                                <Rectangle x="0" y="4" width="4" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="-135" />
+                            </PartDraw>
+                        </Group>
+                        <Group name="1to11hMarkers" x="0" y="0" width="158" height="158">
+                            <!-- 1h - Watch 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="-165" />
+                            </PartDraw>
+                            <!-- 2h - Watch 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="-150" />
+                            </PartDraw>
+                            <!-- 4h - Watch 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="-120" />
+                            </PartDraw>
+                            <!-- 5h - Watch 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="-105" />
+                            </PartDraw>
+
+                            <!-- 7h - Watch 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="-75" />
+                            </PartDraw>
+                            <!-- 8h - Watch 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="-60" />
+                            </PartDraw>
+                            <!-- 10h - Watch 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="-30" />
+                            </PartDraw>
+                            <!-- 11h - Phone 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="-15" />
+                            </PartDraw>
+                        </Group>
+                        <Group name="13to23hMarkers" x="0" y="0" width="158" height="158">
+                            <!-- 23h - Watch 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="165" />
+                            </PartDraw>
+                            <!-- 22h - Watch 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="150" />
+                            </PartDraw>
+                            <!-- 20h - Watch 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="120" />
+                            </PartDraw>
+                            <!-- 19h - Watch 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="105" />
+                            </PartDraw>
+
+                            <!-- 17h - Watch 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="75" />
+                            </PartDraw>
+                            <!-- 16h - Watch 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="60" />
+                            </PartDraw>
+                            <!-- 14h - Watch 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="30" />
+                            </PartDraw>
+                            <!-- 13h - Phone 24h marker -->
+                            <PartDraw x="78" y="0" width="2" height="158">
+                                <Rectangle x="0" y="4" width="2" height="14">
+                                    <Fill color="[CONFIGURATION.themeColor.0]" />
+                                </Rectangle>
+                                <Transform target="angle" value="15" />
+                            </PartDraw>
+                        </Group>
+                    </Group>
+                </Group>
+                <Group name="LeftComplicationInnerCircle" height="118" width="118" x="20" y="20">
+                    <!-- Inner background circle -->
+                    <Group name="LeftInnerCircleMasking" height="118" width="118" x="0" y="0">
+                        <PartDraw x="0" y="0" width="118" height="118">
+                            <Ellipse x="0" y="0" width="118" height="118">
+                                <Fill color="[CONFIGURATION.themeColor.1]">
+                                    <RadialGradient centerX="59" centerY="59" radius="60"
+                                        colors="#333333 #eeeeee" positions="0.2 1" />
+                                </Fill>
+                            </Ellipse>
+                        </PartDraw>
+
+                        <!-- 2. The Masking Shape (renderMode="MASK") -->
+                        <!-- This element is NOT drawn, it only clips the PartImage above. -->
+                        <PartImage renderMode="MASK" alpha="170" width="118" height="118" x="0"
+                            y="0">
+                            <Image resource="concentric_circles" />
+                        </PartImage>
+                    </Group>
+                    <Group name="24hMinuteMarkers" x="0" y="0" width="118" height="118">
+                        <!-- 0 - Watch Minute marker -->
+                        <PartDraw x="57" y="0" width="2" height="118">
+                            <Rectangle x="1" y="4" width="2" height="10">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                                <Stroke color="[CONFIGURATION.themeColor.12]" thickness="1" />
+                            </Rectangle>
+                        </PartDraw>
+                        <!-- 5 - Watch Minute marker -->
+                        <PartDraw x="58" y="0" width="2" height="118">
+                            <Rectangle x="0" y="4" width="2" height="8">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="30" />
+                        </PartDraw>
+                        <!-- 10 - Watch Minute marker -->
+                        <PartDraw x="58" y="0" width="2" height="118">
+                            <Rectangle x="0" y="4" width="2" height="8">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="60" />
+                        </PartDraw>
+                        <!-- 15 - Watch Minute marker -->
+                        <PartDraw x="58" y="0" width="2" height="118">
+                            <Rectangle x="0" y="4" width="2" height="10">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="90" />
+                        </PartDraw>
+                        <!-- 20 - Watch Minute marker -->
+                        <PartDraw x="58" y="0" width="2" height="118">
+                            <Rectangle x="0" y="4" width="2" height="8">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="120" />
+                        </PartDraw>
+                        <!-- 25 - Watch Minute marker -->
+                        <PartDraw x="58" y="0" width="2" height="118">
+                            <Rectangle x="0" y="4" width="2" height="8">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="150" />
+                        </PartDraw>
+                        <!-- 30 - Watch Minute marker -->
+                        <PartDraw x="58" y="0" width="2" height="118">
+                            <Rectangle x="0" y="4" width="2" height="10">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="180" />
+                        </PartDraw>
+                        <!-- 35 - Watch Minute marker -->
+                        <PartDraw x="58" y="0" width="2" height="118">
+                            <Rectangle x="0" y="4" width="2" height="8">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="210" />
+                        </PartDraw>
+                        <!-- 40 - Watch Minute marker -->
+                        <PartDraw x="58" y="0" width="2" height="118">
+                            <Rectangle x="0" y="4" width="2" height="8">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="240" />
+                        </PartDraw>
+                        <!-- 45 - Watch Minute marker -->
+                        <PartDraw x="58" y="0" width="2" height="118">
+                            <Rectangle x="0" y="4" width="2" height="10">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="270" />
+                        </PartDraw>
+                        <!-- 50 - Watch Minute marker -->
+                        <PartDraw x="58" y="0" width="2" height="118">
+                            <Rectangle x="0" y="4" width="2" height="8">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="300" />
+                        </PartDraw>
+                        <!-- 55 - Watch Minute marker -->
+                        <PartDraw x="58" y="0" width="2" height="118">
+                            <Rectangle x="0" y="4" width="2" height="8">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="330" />
+                        </PartDraw>
+                    </Group>
+                    <Group name="LeftInnerCircleLabels" x="0" y="0" width="118" height="118">
+                        <!-- Football Team icon -->
+                        <PartText height="60" width="60" x="25" y="-7">
+                            <Text>
+                                <Font family="sequel_extended2" size="75"
+                                    color="[CONFIGURATION.themeColor.0]">
+                                    <Template><![CDATA[Å]]></Template>
+                                </Font>
+                            </Text>
+                        </PartText>
+                        <!-- Globe icon at bottom -->
+                        <PartText height="30" width="30" x="45" y="73">
+                            <Text>
+                                <Font family="material_icons" size="25"
+                                    color="[CONFIGURATION.themeColor.0]">
+                                    <Template><![CDATA[public]]></Template>
+                                </Font>
+                            </Text>
+                        </PartText>
+                    </Group>
+
+                    <!-- Watch 24h hand: 0° at 100%, -180° at 0% -->
+                    <PartDraw height="118" width="6" x="56" y="0" pivotX="0.5" pivotY="0.5">
+                        <RoundRectangle x="0" y="2" width="6" height="60" cornerRadiusX="3"
+                            cornerRadiusY="5">
+                            <Fill color="[CONFIGURATION.themeColor.2]" />
+                            <Stroke color="[CONFIGURATION.themeColor.3]" thickness="1" />
+                        </RoundRectangle>
+                        <Transform target="angle" value="-180 + ([HOUR_0_23]-9) * 15" />
+                    </PartDraw>
+                    <!-- Watch Global minute hand -->
+                    <PartDraw height="118" width="6" x="56" y="0" pivotX="0.5" pivotY="0.5">
+                        <RoundRectangle x="0" y="15" width="6" height="45" cornerRadiusX="3"
+                            cornerRadiusY="5">
+                            <Fill color="[CONFIGURATION.themeColor.2]" />
+                            <Stroke color="[CONFIGURATION.themeColor.3]" thickness="1" />
+                        </RoundRectangle>
+                        <Transform target="angle" value="[MINUTE] * 6" />
+                    </PartDraw>
+
+                    <!-- Center dot over 24h hand -->
+                    <PartDraw height="20" width="20" x="49" y="49">
+                        <Ellipse height="20" width="20" x="0" y="1">
+                            <Fill color="[CONFIGURATION.themeColor.0]">
+                                <RadialGradient centerX="10" centerY="11" radius="10"
+                                    colors="#5F0000 #AF0000 #D70000" positions="0.1 0.5 1.0" />
+                            </Fill>
+                            <Stroke color="[CONFIGURATION.themeColor.11]" thickness="1" />
+                        </Ellipse>
+                    </PartDraw>
+                </Group>
+
+            </Group>
+            <Group name="BottomComplication" height="158" width="158" x="146" y="260">
+                <!-- Outer ring -->
+                <Group name="BottomComplicationOuterCircle" x="0" y="0" width="158" height="158">
+                    <PartDraw height="158" width="158" x="0" y="0">
+                        <Ellipse height="158" width="158" x="0" y="0">
+                            <Stroke color="[CONFIGURATION.themeColor.4]" thickness="4">
+                                <LinearGradient startX="0" startY="0" endX="158" endY="158"
+                                    positions="0 1" colors="#dddddd #444444" />
+                            </Stroke>
+                            <Fill color="[CONFIGURATION.themeColor.5]" />
+                        </Ellipse>
+                    </PartDraw>
+                    <PartDraw height="158" width="158" x="0" y="0">
+                        <Ellipse height="158" width="158" x="0" y="0">
+                            <Stroke color="[CONFIGURATION.themeColor.4]" thickness="2">
+                                <LinearGradient startX="158" startY="158" endX="0" endY="0"
+                                    positions="0 1" colors="#d5d5d5 #ffffff" />
+                            </Stroke>
+                            <Fill color="[CONFIGURATION.themeColor.5]">
+                                <LinearGradient startX="0" startY="0" endX="158" endY="158"
+                                    positions="0 1" colors="#bbbbbb #eeeeee" />
+                            </Fill>
+                        </Ellipse>
+                    </PartDraw>
+                    <!-- We put the markers for temperature 31,42857143 degree each -->
+                    <Group name="TemperatureMarkers" x="0" y="0" width="158" height="158">
+                        <!-- 0 - Temperature marker -->
+                        <PartDraw x="77" y="0" width="4" height="158">
+                            <Rectangle x="0" y="4" width="4" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                                <Stroke color="[CONFIGURATION.themeColor.12]" thickness="1" />
+                            </Rectangle>
+                            <Transform target="angle" value="195.7" />
+                        </PartDraw>
+
+                        <!-- +40 - Temperature marker -->
+                        <PartDraw x="78" y="0" width="4" height="158">
+                            <Rectangle x="0" y="4" width="4" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="70" />
+                        </PartDraw>
+                        <!-- +30 - Temperature marker -->
+                        <PartDraw x="78" y="0" width="4" height="158">
+                            <Rectangle x="0" y="4" width="4" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="101.4" />
+                        </PartDraw>
+                        <!-- +20 - Temperature marker -->
+                        <PartDraw x="78" y="0" width="4" height="158">
+                            <Rectangle x="0" y="4" width="4" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="132.8" />
+                        </PartDraw>
+                        <!-- +10 - Temperature marker -->
+                        <PartDraw x="78" y="0" width="4" height="158">
+                            <Rectangle x="0" y="4" width="4" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="164.3" />
+                        </PartDraw>
+
+                        <!-- -30 - Temperature marker -->
+                        <PartDraw x="77" y="0" width="4" height="158">
+                            <Rectangle x="0" y="4" width="4" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="-70" />
+                        </PartDraw>
+                        <!-- -20 - Temperature marker -->
+                        <PartDraw x="77" y="0" width="4" height="158">
+                            <Rectangle x="0" y="4" width="4" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="-101.4" />
+                        </PartDraw>
+                        <!-- -10 - Temperature marker -->
+                        <PartDraw x="77" y="0" width="4" height="158">
+                            <Rectangle x="0" y="4" width="4" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="-132.8" />
+                        </PartDraw>
+
+                        <!-- +35 - Temperature marker -->
+                        <PartDraw x="78" y="0" width="2" height="158">
+                            <Rectangle x="0" y="4" width="2" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="85.7" />
+                        </PartDraw>
+                        <!-- +25 - Temperature marker -->
+                        <PartDraw x="78" y="0" width="2" height="158">
+                            <Rectangle x="0" y="4" width="2" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="117.15" />
+                        </PartDraw>
+                        <!-- +15 - Temperature marker -->
+                        <PartDraw x="78" y="0" width="2" height="158">
+                            <Rectangle x="0" y="4" width="2" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="148.6" />
+                        </PartDraw>
+                        <!-- +5 - Temperature marker -->
+                        <PartDraw x="78" y="0" width="2" height="158">
+                            <Rectangle x="0" y="4" width="2" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="180" />
+                        </PartDraw>
+
+                        <!-- -25 - Temperature marker -->
+                        <PartDraw x="78" y="0" width="2" height="158">
+                            <Rectangle x="0" y="4" width="2" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="-85.7" />
+                        </PartDraw>
+                        <!-- -15 - Temperature marker -->
+                        <PartDraw x="78" y="0" width="2" height="158">
+                            <Rectangle x="0" y="4" width="2" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="-117.15" />
+                        </PartDraw>
+                        <!-- -5 - Temperature marker -->
+                        <PartDraw x="78" y="0" width="2" height="158">
+                            <Rectangle x="0" y="4" width="2" height="14">
+                                <Fill color="[CONFIGURATION.themeColor.0]" />
+                            </Rectangle>
+                            <Transform target="angle" value="-148.6" />
+                        </PartDraw>
+
+                    </Group>
+                </Group>
+
+                <!-- Inner ring -->
+                <Group name="BottomComplicationInnerCircle" height="118" width="118" x="20" y="20">
+                    <!-- Inner background circle -->
+                    <Group name="BottomInnerCircleMasking" height="118" width="118" x="0" y="0">
+                        <PartDraw x="0" y="0" width="118" height="118">
+                            <Ellipse x="0" y="0" width="118" height="118">
+                                <Fill color="[CONFIGURATION.themeColor.1]">
+                                    <RadialGradient centerX="59" centerY="59" radius="60"
+                                        colors="#333333 #eeeeee" positions="0.2 1" />
+                                </Fill>
+                            </Ellipse>
+                        </PartDraw>
+
+                        <!-- 2. The Masking Shape (renderMode="MASK") -->
+                        <!-- This element is NOT drawn, it only clips the PartImage above. -->
+                        <PartImage renderMode="MASK" alpha="170" width="118" height="118" x="0"
+                            y="0">
+                            <Image resource="concentric_circles" />
+                        </PartImage>
+                    </Group>
+
+
+                    <!-- Moonphase Masking -->
+                    <Group name="BottomComplicationMasking" height="118" width="118" x="0" y="0">
+                        <!-- This Group will contain both the content and the mask for the moonphase -->
+                        <Group name="WeatherMaskGroup" height="118" width="118" x="0" y="0">
+                            <!-- 1. The Content to be Masked (renderMode="SOURCE" is default) -->
+                            <!-- This is the "sky" that moves behind the window -->
+
+                            <!-- Weather icon -->
+                            <Condition>
+                                <Expressions>
+                                    <Expression name="is_weather_available">[WEATHER.IS_AVAILABLE]
+                                    </Expression>
+                                </Expressions>
+                                <Compare expression="is_weather_available">
+                                    <Condition>
+                                        <Expressions>
+                                            <Expression name="is_day">[WEATHER.IS_DAY]</Expression>
+                                        </Expressions>
+                                        <Compare expression="is_day">
+                                            <!-- Day Sky -->
+                                            <PartDraw x="0" y="0" width="118" height="118">
+                                                <Rectangle x="0" y="0" width="120" height="120">
+                                                    <Fill color="[CONFIGURATION.themeColor.14]">
+                                                        <LinearGradient startX="60" startY="0"
+                                                            endX="60" endY="60"
+                                                            colors="#87CEEB #4A90E2"
+                                                            positions="0 0.8" />
+                                                    </Fill>
+                                                </Rectangle>
+                                            </PartDraw>
+                                            <PartText height="45" width="45" x="36" y="1">
+                                                <Text>
+                                                    <BitmapFont family="weather_icons_day"
+                                                        size="45">
+                                                        <Template><![CDATA[%s]]>
+                                                            <Parameter
+                                                                expression="[WEATHER.CONDITION] &lt;= 15 ? [WEATHER.CONDITION] : 0" />
+                                                        </Template>
+                                                    </BitmapFont>
+                                                </Text>
+                                            </PartText>
+                                        </Compare>
+                                        <Default>
+                                            <!-- Night Sky -->
+                                            <PartDraw x="0" y="0" width="118" height="118">
+                                                <Rectangle x="0" y="0" width="120" height="120">
+                                                    <Fill color="[CONFIGURATION.themeColor.14]">
+                                                        <LinearGradient startX="60" startY="0"
+                                                            endX="60" endY="60"
+                                                            colors="#000000 #00254D"
+                                                            positions="0 0.8" />
+                                                    </Fill>
+                                                </Rectangle>
+                                            </PartDraw>
+                                            <PartText height="45" width="45" x="36" y="1">
+                                                <Text>
+                                                    <BitmapFont family="weather_icons_night"
+                                                        size="45">
+                                                        <Template><![CDATA[%s]]>
+                                                            <Parameter
+                                                                expression="[WEATHER.CONDITION] &lt;= 15 ? [WEATHER.CONDITION] : 0" />
+                                                        </Template>
+                                                    </BitmapFont>
+                                                </Text>
+                                            </PartText>
+                                        </Default>
+                                    </Condition>
+                                </Compare>
+                                <Default>
+                                    <!-- Testing: sunshine icon x="57" y="23" -->
+                                    <PartDraw x="0" y="0" width="118" height="118">
+                                        <Rectangle x="0" y="0" width="120" height="120">
+                                            <Fill color="[CONFIGURATION.themeColor.14]">
+                                                <LinearGradient startX="60" startY="0" endX="60"
+                                                    endY="60" colors="#4A90E2 #87CEEB"
+                                                    positions="0 0.8" />
+                                            </Fill>
+                                        </Rectangle>
+                                    </PartDraw>
+                                    <PartText height="45" width="45" x="36" y="1">
+                                        <Text>
+                                            <BitmapFont family="weather_icons_day" size="45">
+                                                <Template><![CDATA[4]]></Template>
+                                            </BitmapFont>
+                                        </Text>
+                                    </PartText>
+                                </Default>
+                            </Condition>
+
+                            <!-- 2. The Masking Shape (renderMode="MASK") -->
+                            <!-- This element is NOT drawn, it only clips the PartImage above. -->
+                            <PartImage renderMode="MASK" width="118" height="59" x="0" y="1">
+                                <Image resource="moonphase_mask" />
+                            </PartImage>
+                        </Group>
+
+                        <!-- Add a decorative border/stroke on top of the window -->
+                        <PartDraw x="0" y="0" width="118" height="118">
+                            <Ellipse x="0" y="0" width="118" height="118">
+                                <Stroke color="[CONFIGURATION.themeColor.15]" thickness="1">
+                                    <LinearGradient startX="0" startY="0" endX="118" endY="0"
+                                        colors="#111111 #555555" positions="0.0 1.0" />
+                                </Stroke>
+                            </Ellipse>
+                        </PartDraw>
+                    </Group>
+
+                    <!-- Temperature scale markings -->
+                    <Group name="TemperatureScale" y="0" x="0" height="118" width="118">
+                        <!-- -30°C mark (left side) -->
+                        <PartText height="15" width="25" x="4" y="35">
+                            <Text>
+                                <Font family="sequel_extended2" size="12"
+                                    color="[CONFIGURATION.themeColor.0]">
+                                    <Template><![CDATA[-30]]></Template>
+                                </Font>
+                            </Text>
+                            <Transform target="angle" value="20" />
+                        </PartText>
+                        <!-- -20°C mark (left side) -->
+                        <PartText height="15" width="25" x="2" y="58">
+                            <Text>
+                                <Font family="sequel_extended2" size="12"
+                                    color="[CONFIGURATION.themeColor.0]">
+                                    <Template><![CDATA[-20]]></Template>
+                                </Font>
+                            </Text>
+                            <Transform target="angle" value="-11.42" />
+                        </PartText>
+                        <!-- -10°C mark (left side) -->
+                        <PartText height="15" width="25" x="11" y="82">
+                            <Text>
+                                <Font family="sequel_extended2" size="12"
+                                    color="[CONFIGURATION.themeColor.0]">
+                                    <Template><![CDATA[-10]]></Template>
+                                </Font>
+                            </Text>
+                            <Transform target="angle" value="-42.8" />
+                        </PartText>
+                        <!-- 0°C mark (bottom) -->
+                        <PartText height="15" width="15" x="39" y="100">
+                            <Text>
+                                <Font family="sequel_extended2" size="14"
+                                    color="[CONFIGURATION.themeColor.0]" weight="BOLD">
+                                    <Template><![CDATA[0]]></Template>
+                                </Font>
+                            </Text>
+                            <Transform target="angle" value="15.7" />
+                        </PartText>
+
+                        <!-- +40°C mark (right side) -->
+                        <PartText height="15" width="25" x="88" y="36">
+                            <Text>
+                                <Font family="sequel_extended2" size="12"
+                                    color="[CONFIGURATION.themeColor.0]">
+                                    <Template><![CDATA[+40]]></Template>
+                                </Font>
+                            </Text>
+                            <Transform target="angle" value="-20" />
+                        </PartText>
+                        <PartText height="15" width="25" x="90" y="59">
+                            <Text>
+                                <Font family="sequel_extended2" size="12"
+                                    color="[CONFIGURATION.themeColor.0]">
+                                    <Template><![CDATA[+30]]></Template>
+                                </Font>
+                            </Text>
+                            <Transform target="angle" value="11.4" />
+                        </PartText>
+                        <PartText height="15" width="25" x="81" y="80">
+                            <Text>
+                                <Font family="sequel_extended2" size="12"
+                                    color="[CONFIGURATION.themeColor.0]">
+                                    <Template><![CDATA[+20]]></Template>
+                                </Font>
+                            </Text>
+                            <Transform target="angle" value="42.8" />
+                        </PartText>
+                        <PartText height="15" width="25" x="61" y="96">
+                            <Text>
+                                <Font family="sequel_extended2" size="12"
+                                    color="[CONFIGURATION.themeColor.0]">
+                                    <Template><![CDATA[+10]]></Template>
+                                </Font>
+                            </Text>
+                            <Transform target="angle" value="74.3" />
+                        </PartText>
+                    </Group>
+
+                    <!-- Temperature hand (rotates based on temperature) -->
+                    <Condition>
+                        <Expressions>
+                            <Expression name="is_weather_available">[WEATHER.IS_AVAILABLE]
+                            </Expression>
+                        </Expressions>
+                        <Compare expression="is_weather_available">
+                            <PartDraw height="118" width="6" x="56" y="0" pivotX="0.5" pivotY="0.5">
+                                <RoundRectangle x="0" y="2" width="6" height="60" cornerRadiusX="3"
+                                    cornerRadiusY="5">
+                                    <Fill color="[CONFIGURATION.themeColor.2]" />
+                                    <Stroke color="[CONFIGURATION.themeColor.3]" thickness="1" />
+                                </RoundRectangle>
+                                <!-- Transform: map temperature from -30 to +30 to angle 270° to 90° -->
+                                <!-- Formula: angle = 270 - (temp + 30) * 3 -->
+                                <Transform target="angle"
+                                    value="220/70 * (40 - [WEATHER.TEMPERATURE]) + 70" />
+                            </PartDraw>
+                        </Compare>
+                        <Default>
+                            <!-- Testing: hand at 25°C position -->
+                            <PartDraw height="118" width="6" x="56" y="0" pivotX="0.5" pivotY="0.5">
+                                <RoundRectangle x="0" y="2" width="6" height="60" cornerRadiusX="3"
+                                    cornerRadiusY="5">
+                                    <Fill color="[CONFIGURATION.themeColor.2]" />
+                                    <Stroke color="[CONFIGURATION.themeColor.3]" thickness="1" />
+                                </RoundRectangle>
+                                <!-- 25°C = 270 - (25 + 30) * 3 = 270 - 165 = 105° -->
+                                <Transform target="angle" value="220/70 * (40 - 25) + 70" />
+                            </PartDraw>
+                        </Default>
+                    </Condition>
+
+                    <!-- Center dot over temperature hand -->
+                    <PartDraw height="20" width="20" x="49" y="49">
+                        <Ellipse height="20" width="20" x="0" y="1">
+                            <Fill color="[CONFIGURATION.themeColor.0]">
+                                <RadialGradient centerX="10" centerY="11" radius="10"
+                                    colors="#5F0000 #AF0000 #D70000" positions="0.1 0.5 1.0" />
+                            </Fill>
+                            <Stroke color="[CONFIGURATION.themeColor.11]" thickness="1" />
+                        </Ellipse>
+                    </PartDraw>
+                </Group>
+
+            </Group>
+
+            <!-- Day hand - pivots at center (225, 225) -->
+            <PartDraw height="450" pivotX="0.5" pivotY="0.5" width="450" x="0" y="0" alpha="200">
+                <Rectangle height="198" width="3" x="223" y="30">
+                    <Fill color="[CONFIGURATION.themeColor.18]" />
+                    <Stroke color="[CONFIGURATION.themeColor.18]" thickness="1" />
+                </Rectangle>
+                <Arc centerX="225" centerY="24" width="39" height="10" startAngle="60"
+                    endAngle="-60">
+                    <Stroke color="[CONFIGURATION.themeColor.18]" thickness="4" />
+                </Arc>
+                <Transform target="angle" value="[DAY] * 11.6" />
+            </PartDraw>
+            <!-- Analog clock with hour and minute hands -->
+            <AnalogClock height="450" width="450" x="0" y="0">
+                <!-- Hour hand - pivots at center (225, 225) -->
+                <HourHand height="450" pivotX="0.5" pivotY="0.5" width="20" x="215" y="0"
+                    alpha="255">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <PartDraw x="0" y="0" width="20" height="245">
+                        <!-- Base hour hand
+                        Colors: HSB, B: 160 130 40 80 -->
+                        <RoundRectangle x="0" y="90" width="19" height="140" cornerRadiusX="3"
+                            cornerRadiusY="50">
+                            <Fill color="[CONFIGURATION.themeColor.1]">
+                                <LinearGradient startX="0" startY="50" endX="19" endY="50"
+                                    colors="#5F0000 #7D0000 #D70000 #AF0000"
+                                    positions="0 0.55 0.6 1" />
+                            </Fill>
+                        </RoundRectangle>
+                        <!-- Tip fluorescent -->
+                        <RoundRectangle x="0" y="90" width="19" height="100" cornerRadiusX="3"
+                            cornerRadiusY="50">
+                            <Fill color="#7D0000" />
+                            <Stroke color="#370000" thickness="1" />
+                        </RoundRectangle>
+                        <!-- Middle overlay -->
+                        <RoundRectangle x="0" y="140" width="19" height="85" cornerRadiusX="0"
+                            cornerRadiusY="0">
+                            <Fill color="[CONFIGURATION.themeColor.1]">
+                                <LinearGradient startX="0" startY="50" endX="19" endY="50"
+                                    colors="#5F0000 #7D0000 #D70000 #AF0000"
+                                    positions="0 0.55 0.6 1" />
+                            </Fill>
+                            <Stroke color="#370000" thickness="1" />
+                        </RoundRectangle>
+                        <!-- End -->
+                        <Rectangle x="4" y="220" width="12" height="35">
+                            <Fill color="[CONFIGURATION.themeColor.1]">
+                                <LinearGradient startX="0" startY="50" endX="19" endY="50"
+                                    colors="#5F0000 #7D0000 #D70000 #AF0000"
+                                    positions="0 0.55 0.6 1" />
+                            </Fill>
+                            <Stroke color="#370000" thickness="1" />
+                        </Rectangle>
+                    </PartDraw>
+                </HourHand>
+                <!-- Minute hand - pivots at center (225, 225) -->
+                <MinuteHand height="450" pivotX="0.5" pivotY="0.5" width="16" x="217" y="0"
+                    alpha="255">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <PartDraw x="0" y="0" width="16" height="245">
+                        <!-- Base hour hand
+                        Colors: HSB, B: 160 130 40 80 -->
+                        <RoundRectangle x="0" y="12" width="15" height="190" cornerRadiusX="3"
+                            cornerRadiusY="50">
+                            <Fill color="[CONFIGURATION.themeColor.1]">
+                                <LinearGradient startX="0" startY="50" endX="15" endY="50"
+                                    colors="#5F0000 #7D0000 #D70000 #AF0000"
+                                    positions="0 0.55 0.6 1" />
+                            </Fill>
+                        </RoundRectangle>
+                        <!-- Tip fluorescent -->
+                        <RoundRectangle x="0" y="12" width="15" height="100" cornerRadiusX="3"
+                            cornerRadiusY="50">
+                            <Fill color="#7D0000" />
+                            <Stroke color="#370000" thickness="1" />
+                        </RoundRectangle>
+                        <!-- Middle overlay -->
+                        <RoundRectangle x="0" y="62" width="15" height="165" cornerRadiusX="0"
+                            cornerRadiusY="0">
+                            <Fill color="[CONFIGURATION.themeColor.1]">
+                                <LinearGradient startX="0" startY="50" endX="15" endY="50"
+                                    colors="#5F0000 #7D0000 #D70000 #AF0000"
+                                    positions="0 0.55 0.6 1" />
+                            </Fill>
+                            <Stroke color="#370000" thickness="1" />
+                        </RoundRectangle>
+                        <!-- End -->
+                        <Rectangle x="3" y="220" width="10" height="35">
+                            <Fill color="[CONFIGURATION.themeColor.1]">
+                                <LinearGradient startX="0" startY="50" endX="15" endY="50"
+                                    colors="#5F0000 #7D0000 #D70000 #AF0000"
+                                    positions="0 0.55 0.6 1" />
+                            </Fill>
+                            <Stroke color="#370000" thickness="1" />
+                        </Rectangle>
+                    </PartDraw>
+                </MinuteHand>
+                <!-- Second hand - triangle shape -->
+                <SecondHand height="450" pivotX="0.5" pivotY="0.5" width="12" x="219" y="2"
+                    alpha="255">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Sweep frequency="SYNC_TO_DEVICE" />
+                    <PartDraw height="12" tintColor="[CONFIGURATION.themeColor.1]" width="12" x="0"
+                        y="0">
+                        <!-- Red Triangle -->
+                        <Line startX="6" startY="4" endX="9" endY="9">
+                            <Stroke color="[CONFIGURATION.themeColor.12]" thickness="4" />
+                        </Line>
+                        <Line endX="4" endY="9" startX="9" startY="9">
+                            <Stroke color="[CONFIGURATION.themeColor.12]" thickness="4" />
+                        </Line>
+                        <Line startX="4" startY="9" endX="6" endY="4">
+                            <Stroke color="[CONFIGURATION.themeColor.12]" thickness="4" />
+                        </Line>
+                        <!-- Outer thin Triangle -->
+                        <Line endX="12" endY="12" startX="6" startY="0">
+                            <Stroke color="[CONFIGURATION.themeColor.1]" thickness="1" />
+                        </Line>
+                        <Line endX="0" endY="12" startX="12" startY="12">
+                            <Stroke color="[CONFIGURATION.themeColor.1]" thickness="1" />
+                        </Line>
+                        <Line endX="6" endY="0" startX="0" startY="12">
+                            <Stroke color="[CONFIGURATION.themeColor.1]" thickness="1" />
+                        </Line>
+                        <!-- Inner thick Triangle -->
+                        <Line endX="11" endY="11" startX="6" startY="1">
+                            <Stroke color="[CONFIGURATION.themeColor.1]" thickness="2" />
+                        </Line>
+                        <Line endX="1" endY="11" startX="11" startY="11">
+                            <Stroke color="[CONFIGURATION.themeColor.1]" thickness="2" />
+                        </Line>
+                        <Line endX="6" endY="1" startX="1" startY="11">
+                            <Stroke color="[CONFIGURATION.themeColor.1]" thickness="2" />
+                        </Line>
+                    </PartDraw>
+                </SecondHand>
+            </AnalogClock>
+            <!-- Center dot over all hands -->
+            <PartDraw height="26" width="26" x="212" y="212" alpha="255">
+                <Variant mode="AMBIENT" target="alpha" value="0" />
+                <Ellipse height="26" width="26" x="0" y="0">
+                    <Fill color="[CONFIGURATION.themeColor.0]">
+                        <RadialGradient centerX="13" centerY="13" radius="14"
+                            colors="#5F0000 #AF0000 #D70000" positions="0.1 0.5 1.0" />
+                    </Fill>
+                    <Stroke color="[CONFIGURATION.themeColor.11]" thickness="2" />
+                </Ellipse>
+            </PartDraw>
+        </Group>
+        <!-- Ambient Mode Elements (hidden in active mode, visible in ambient) -->
+        <!-- Ambient Hour Numbers (1-12) with white stroke -->
+        <Group name="AmbientGroup" x="0" y="0" width="450" height="450">
+            <Group name="AmbientHourNumbers" x="0" y="0" width="450" height="450" alpha="0">
+                <Variant mode="AMBIENT" target="alpha" value="255" />
+                <!-- 12 Hour Number -->
+                <PartText x="191" y="24" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="49"
+                            color="[CONFIGURATION.themeColor.26]" weight="BOLD">
+                            <Template><![CDATA[òù]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 2 Hour Number -->
+                <PartText x="345" y="109" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="50"
+                            color="[CONFIGURATION.themeColor.26]" weight="BOLD">
+                            <Template><![CDATA[ù]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 10 Hour Number -->
+                <PartText x="56" y="109" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="50"
+                            color="[CONFIGURATION.themeColor.26]" weight="BOLD">
+                            <Template><![CDATA[òã]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 4 Hour Number -->
+                <PartText x="346" y="285" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="50"
+                            color="[CONFIGURATION.themeColor.26]" weight="BOLD">
+                            <Template><![CDATA[Õ]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- 7 Hour Number -->
+                <PartText x="107" y="349" width="60" height="50">
+                    <Text>
+                        <Font family="sequel_extended2" size="50"
+                            color="[CONFIGURATION.themeColor.26]" weight="BOLD">
+                            <Template><![CDATA[à]]></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Group>
+
+            <!-- Ambient Analog Clock (simplified outline hands) -->
+            <AnalogClock height="450" width="450" x="0" y="0" alpha="0">
+                <Variant mode="AMBIENT" target="alpha" value="255" />
+                <!-- Ambient Hour Hand - Simplified outline -->
+                <HourHand height="450" pivotX="0.5" pivotY="0.5" width="20" x="215" y="0">
+                    <Variant mode="AMBIENT" target="alpha" value="255" />
+                    <PartDraw x="0" y="0" width="20" height="245">
+                        <!-- Tip fluorescent -->
+                        <RoundRectangle x="0" y="90" width="19" height="100" cornerRadiusX="3"
+                            cornerRadiusY="50">
+                            <Stroke color="[CONFIGURATION.themeColor.26]" thickness="2" />
+                        </RoundRectangle>
+                        <!-- Middle overlay -->
+                        <RoundRectangle x="0" y="140" width="19" height="85" cornerRadiusX="0"
+                            cornerRadiusY="0">
+                            <Fill color="[CONFIGURATION.themeColor.0]" />
+                        </RoundRectangle>
+                    </PartDraw>
+                </HourHand>
+
+                <!-- Ambient Minute Hand - Simplified outline -->
+                <MinuteHand height="450" pivotX="0.5" pivotY="0.5" width="16" x="217" y="0">
+                    <Variant mode="AMBIENT" target="alpha" value="255" />
+                    <PartDraw x="0" y="0" width="16" height="245">
+                        <!-- Tip fluorescent -->
+                        <RoundRectangle x="0" y="12" width="15" height="100" cornerRadiusX="3"
+                            cornerRadiusY="50">
+                            <Stroke color="[CONFIGURATION.themeColor.26]" thickness="2" />
+                            <Fill color="[CONFIGURATION.themeColor.0]" />
+                        </RoundRectangle>
+                        <!-- Middle overlay -->
+                        <RoundRectangle x="0" y="62" width="15" height="165" cornerRadiusX="0"
+                            cornerRadiusY="0">
+                            <Fill color="[CONFIGURATION.themeColor.0]" />
+                        </RoundRectangle>
+                    </PartDraw>
+                </MinuteHand>
+            </AnalogClock>
+
+            <!-- Ambient Center point - hollow circle -->
+            <PartDraw height="26" width="26" x="212" y="212" alpha="255">
+                <Variant mode="AMBIENT" target="alpha" value="255" />
+                <Ellipse height="26" width="26" x="0" y="0">
+                    <Stroke color="[CONFIGURATION.themeColor.26]" thickness="1" />
+                </Ellipse>
+            </PartDraw>
+        </Group>
+    </Scene>
+
+</WatchFace>

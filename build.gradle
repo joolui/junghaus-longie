@@ -1,0 +1,36 @@
+plugins {
+    id 'com.android.application' version '8.13.0'
+}
+
+android {
+    namespace 'hu.solsys.junghauslongie'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "hu.solys.junghauslongie"
+        minSdk 30
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    // No dependencies needed for pure WFF watch faces
+}

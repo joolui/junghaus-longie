@@ -1,0 +1,66 @@
+<Group name="Logo" x="0" y="0" width="450" height="450">
+    <Group name="LogoMask" x="0" y="0" width="450" height="450" tintColor="[CONFIGURATION.themeColor.0]" alpha="128">
+        <!-- Logo with conditional tintColor based on battery level -->
+        <Condition>
+            <Expressions>
+                <Expression name="is_battery_low">[BATTERY_PERCENT] &lt;= 30
+                </Expression>
+            </Expressions>
+            <!-- Red logo when battery is low (<=30%) -->
+            <Compare expression="is_battery_low">
+                <Group name="LogoLowBattery" x="0" y="0" width="450" height="450">
+                    <PartDraw x="270" y="215" width="100" height="25">
+                        <Rectangle x="0" y="0" width="100" height="25">
+                            <Fill color="[CONFIGURATION.themeColor.0]" />
+                        </Rectangle>
+                    </PartDraw>
+                </Group>
+            </Compare>
+            <!-- Normal logo when battery is sufficient (>30%) -->
+            <Default>
+                <Group name="LogoHighBattery" x="0" y="0" width="450" height="450">
+                    <PartDraw x="270" y="215" width="100" height="25">
+                        <Rectangle x="0" y="0" width="100" height="25">
+                            <Fill color="[CONFIGURATION.themeColor.0]" />
+                        </Rectangle>
+                    </PartDraw>
+                </Group>
+            </Default>
+        </Condition>
+        <PartImage x="270" y="215" width="100" height="25" renderMode="MASK">
+            <Image resource="logo_mask" />
+        </PartImage>
+    </Group>
+
+    <Group name="LogoDate" x="0" y="0" width="450" height="450"
+        tintColor="[CONFIGURATION.themeColor.0]">
+        <PartText height="27" width="130" x="255" y="190">
+            <Localization calendar="GREGORIAN" timeZone="SYNC_TO_DEVICE" />
+            <Text>
+                <Font family="sequel_extended2" size="17">
+                    <Template><![CDATA[%S]]>
+                        <Parameter expression="[DAY_OF_WEEK_F]" />
+                    </Template>
+                </Font>
+            </Text>
+        </PartText>
+        <PartText height="27" width="130" x="255" y="230">
+            <Localization calendar="GREGORIAN" timeZone="SYNC_TO_DEVICE" />
+            <Text>
+                <Font family="sequel_extended2" size="14">
+                    <Template><![CDATA[%s %s]]>
+                        <Parameter expression="[MONTH_F]" />
+                        <Parameter expression="[YEAR]" />
+                    </Template>
+                </Font>
+            </Text>
+        </PartText>
+    </Group>
+    <Group name="LogoHighBattery" x="0" y="0" width="450" height="450" tintColor="[CONFIGURATION.themeColor.0]">
+        <PartDraw x="270" y="215" width="100" height="25">
+            <Rectangle x="270" y="215" width="100" height="25">
+                <Stroke color="[CONFIGURATION.themeColor.1]" thickness="5"/>
+                <Fill color="[CONFIGURATION.themeColor.0]" />
+            </Rectangle>
+        </PartDraw>
+    </Group>

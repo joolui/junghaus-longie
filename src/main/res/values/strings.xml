@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="watch_face_name">Junghaus Longie</string>
+    <string name="colors_label">Color theme</string>
+    <string name="theme_one_label">Whiteish</string>
+    <string name="theme_two_label">Blueish</string>
+</resources>
